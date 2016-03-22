@@ -10,7 +10,7 @@ const cmd = process.argv[2];
 const subCmd = process.argv[3];
 
 if (cmd === 'read') {
-  fs.readFile(petsPath, 'utf8', function (err, data) {
+  fs.readFile(petsPath, 'utf8', (err, data) => {
     if (err) {
       throw err;
     }
@@ -26,7 +26,7 @@ if (cmd === 'read') {
     }
   });
 } else if (cmd === 'create') {
-  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
@@ -41,11 +41,11 @@ if (cmd === 'read') {
       process.exit(1);
     }
 
-    pets.push({ age: parseInt(age, 10), kind: kind, name: name });
+    pets.push({ age: parseInt(age, 10), kind, name });
 
     const petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
@@ -53,7 +53,7 @@ if (cmd === 'read') {
     });
   });
 } else if (cmd === 'update') {
-  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
@@ -79,7 +79,7 @@ if (cmd === 'read') {
 
     const petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
@@ -88,7 +88,7 @@ if (cmd === 'read') {
     });
   });
 } else if (cmd === 'destroy') {
-  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+  fs.readFile(petsPath, 'utf8', (readErr, data) => {
     if (readErr) {
       throw readErr;
     }
@@ -110,7 +110,7 @@ if (cmd === 'read') {
 
     const petsJSON = JSON.stringify(pets);
 
-    fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    fs.writeFile(petsPath, petsJSON, (writeErr) => {
       if (writeErr) {
         throw writeErr;
       }
