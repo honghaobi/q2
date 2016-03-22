@@ -41,7 +41,7 @@ if (cmd === 'read') {
       process.exit(1);
     }
 
-    pets.push({ 'age':parseInt(age), 'kind':kind, 'name':name });
+    pets.push({ age: parseInt(age, 10), kind: kind, name: name });
 
     const petsJSON = JSON.stringify(pets);
 
