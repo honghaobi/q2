@@ -14,38 +14,25 @@ fs.readFile(petsPath, 'utf8', (err, data) => {
   pets = JSON.parse(data);
 });
 
-function post(data){
-  console.log(data);
-  pets.push({ age: parseInt(age, 10), kind, name });
-
+function postData(data){
+  var data = JSON.parse(data);
+  pets.push({ age: parseInt(data.age, 10), kind: data.kind, name: data.name });
   const petsJSON = JSON.stringify(pets);
 
   fs.writeFile(petsPath, petsJSON, (writeErr) => {
     if (writeErr) {
       throw writeErr;
     }
-    console.log(pets);
   });
-}
+};
 
 function handleRequest(req, res) {
-  var index = req.url.slice(-1);
+  var arr = req.url.split('/');
+  var index = arr[2];
 
   if (req.method === 'POST' && req.url.match('pets')){
-
-    req.on('data', function(data){
-      var data = JSON.parse(data);
-      pets.push({ age: parseInt(data.age, 10), kind: data.kind, name: data.name });
-      const petsJSON = JSON.stringify(pets);
-
-      fs.writeFile(petsPath, petsJSON, (writeErr) => {
-        if (writeErr) {
-          throw writeErr;
-        }
-      });
-      res.end(JSON.stringify(pets));
-    });
-
+    req.on('data', postData);
+    res.end(JSON.stringify(pets));
   } else if (req.url.match('pets/')) {
     if (isNaN(index) || index > pets.length || index < 0){
       res.statusMessage = '404';
