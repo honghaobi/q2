@@ -28,13 +28,17 @@ function postData(){
 };
 
 app.post('/pets', function(req,res){
-      var age = parseInt(req.body.age);
-      var kind = req.body.kind;
-      var name = req.body.name;
+  var age = parseInt(req.body.age);
+  var kind = req.body.kind;
+  var name = req.body.name;
 
-      pets.push({ age, kind, name});
-      postData();
-      res.send(pets);
+  if (!age || !kind || !name) {
+    res.status(400).send('missing a param');
+  } else {
+    pets.push({ age, kind, name});
+    postData();
+    res.send(pets);
+  }
 });
 
 app.get('/pets', function(req, res){
