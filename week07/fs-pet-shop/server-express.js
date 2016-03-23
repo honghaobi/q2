@@ -25,7 +25,7 @@ function postData(){
       throw writeErr;
     }
   });
-};
+}
 
 app.post('/pets', function(req,res){
   var age = parseInt(req.body.age);
