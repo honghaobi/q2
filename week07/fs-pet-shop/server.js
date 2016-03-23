@@ -34,7 +34,7 @@ function handleRequest(req, res) {
     req.on('data', postData);
     res.end(JSON.stringify(pets));
   } else if (req.url.match('pets/')) {
-    if (isNaN(index) || index > pets.length || index < 0){
+    if (isNaN(index) || index >= pets.length || index < 0){
       res.statusMessage = '404';
       res.end(res.statusMessage);
     } else {
