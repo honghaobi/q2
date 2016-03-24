@@ -16,8 +16,29 @@ var petsPath = path.join(__dirname, 'pets.json');
 
 var pets;
 
+var basicAuth = require('basic-auth');
+
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  }
+
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  }
+
+  if (user.name === 'admin' && user.pass === 'meowmix') {
+    return next();
+  } else {
+    return unauthorized(res);
+  }
+};
+
 app.use(function(req, res, next){
-  fs.readFile(petsPath, 'utf8', (readErr, data) => {
+  fs.readFile(petsPath, 'utf8', function (readErr, data) {
     if(readErr){
       return next(readErr);
     }
@@ -29,14 +50,14 @@ app.use(function(req, res, next){
 function postData(){
   var petsJSON = JSON.stringify(pets);
 
-  fs.writeFile(petsPath, petsJSON, (writeErr) => {
+  fs.writeFile(petsPath, petsJSON, function (writeErr) {
     if (writeErr) {
       return next(writeErr);
     }
   });
 }
 
-app.get('/pets', function(req, res){
+app.get('/pets', auth, function(req, res){
   res.send('here are your pets ' + JSON.stringify(pets));
 });
 
@@ -50,7 +71,7 @@ app.get('/pets/:index', function(req, res) {
   }
 });
 
-app.get('/*', function (req, res) {
+app.get('/*', auth, function (req, res) {
   res.status(404).send('nope! nothing here.');
 });
 
@@ -68,7 +89,7 @@ app.post('/pets', function(req, res, next){
   }
 });
 
-app.put('/pets/:index', function(req, res, next){
+app.put('/pets/:index', auth, function(req, res, next){
   var index = Number.parseInt(req.params.index);
   var age = parseInt(req.body.age);
   var kind = req.body.kind;
@@ -85,7 +106,7 @@ app.put('/pets/:index', function(req, res, next){
   }
 });
 
-app.patch('/pets/:index', function(req, res, next){
+app.patch('/pets/:index', auth, function(req, res, next){
   var index = Number.parseInt(req.params.index);
   var age = parseInt(req.body.age);
   var kind = req.body.kind;
@@ -111,7 +132,7 @@ app.patch('/pets/:index', function(req, res, next){
 });
 
 
-app.delete('/pets/:index', function(req, res, next){
+app.delete('/pets/:index', auth, function(req, res, next){
   var index = Number.parseInt(req.params.index);
 
   if(Number.isNaN(index) || index < 0 || index >= pets.length) {
@@ -123,7 +144,7 @@ app.delete('/pets/:index', function(req, res, next){
   }
 });
 
-app.all('/*', function(res, req){
+app.all('/*', auth, function(res, req){
   res.sendStatus(404);
 });
 
