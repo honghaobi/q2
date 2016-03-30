@@ -1,8 +1,14 @@
-'use strict';
-// requires Node's `http` module
 var http = require('http');
 var url = require('url');
-// var routes = require('./routes');
+
+var express = require('express');
+var app = express();
+
+var morgan = require('morgan');
+app.use(morgan('short'));
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
 
 var fs = require('fs');
 var path = require('path');
@@ -10,47 +16,144 @@ var petsPath = path.join(__dirname, 'pets.json');
 
 var pets;
 
-fs.readFile(petsPath, 'utf8', (err, data) => {
-  pets = JSON.parse(data);
-});
+var basicAuth = require('basic-auth');
 
-function postData(data){
-  var data = JSON.parse(data);
-  pets.push({ age: parseInt(data.age, 10), kind: data.kind, name: data.name });
-  const petsJSON = JSON.stringify(pets);
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  }
 
-  fs.writeFile(petsPath, petsJSON, (writeErr) => {
-    if (writeErr) {
-      throw writeErr;
-    }
-  });
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  }
+
+  if (user.name === 'admin' && user.pass === 'meowmix') {
+    return next();
+  } else {
+    return unauthorized(res);
+  }
 };
 
-function handleRequest(req, res) {
-  var arr = req.url.split('/');
-  var index = arr[2];
-
-  if (req.method === 'POST' && req.url.match('pets')){
-    req.on('data', postData);
-    res.end(JSON.stringify(pets));
-  } else if (req.url.match('pets/')) {
-    if (isNaN(index) || index >= pets.length || index < 0){
-      res.statusMessage = '404';
-      res.end(res.statusMessage);
-    } else {
-      res.end('here is your pet ' + JSON.stringify(pets[index]));
+app.use(function(req, res, next){
+  fs.readFile(petsPath, 'utf8', function (readErr, data) {
+    if(readErr){
+      return next(readErr);
     }
-  } else if (req.url.match('pets')) {
-    res.end('here are your pets ' + JSON.stringify(pets));
-  } else {
-    res.end(req.url);
-  }
+    pets = JSON.parse(data);
+    next();
+  });
+});
+
+function postData(){
+  var petsJSON = JSON.stringify(pets);
+
+  fs.writeFile(petsPath, petsJSON, function (writeErr) {
+    if (writeErr) {
+      return next(writeErr);
+    }
+  });
 }
 
-// Creates an instance of a server with our callback
-const server = http.createServer(handleRequest);
-const port = process.env.PORT || 8080;
-// Binds our server to a port, host, and then logs a message
-server.listen(port, function() {
-  console.log("Listening on port 8080");
+app.get('/pets', auth, function(req, res){
+  res.send('here are your pets ' + JSON.stringify(pets));
+});
+
+app.get('/pets/:index', function(req, res) {
+  var index = req.params.index;
+
+  if (isNaN(index) || index >= pets.length || index < 0) {
+    res.status(404).send('invalid index');
+  } else{
+    res.send('here is your pet ' + JSON.stringify(pets[index]));
+  }
+});
+
+app.get('/*', auth, function (req, res) {
+  res.status(404).send('nope! nothing here.');
+});
+
+app.post('/pets', function(req, res, next){
+  var age = parseInt(req.body.age);
+  var kind = req.body.kind;
+  var name = req.body.name;
+
+  if (!age || !kind || !name) {
+    res.status(400).send('missing a param');
+  } else {
+    pets.push({ age, kind, name});
+    postData();
+    res.send(pets);
+  }
+});
+
+app.put('/pets/:index', auth, function(req, res, next){
+  var index = Number.parseInt(req.params.index);
+  var age = parseInt(req.body.age);
+  var kind = req.body.kind;
+  var name = req.body.name;
+
+  if(Number.isNaN(index) || index < 0 || index >= pets.length) {
+    return res.sendStatus(404);
+  } else {
+    pets[index].age = age;
+    pets[index].kind = kind;
+    pets[index].name = name;
+    postData();
+    res.send(pets);
+  }
+});
+
+app.patch('/pets/:index', auth, function(req, res, next){
+  var index = Number.parseInt(req.params.index);
+  var age = parseInt(req.body.age);
+  var kind = req.body.kind;
+  var name = req.body.name;
+
+  if(Number.isNaN(index) || index < 0 || index >= pets.length) {
+    return res.sendStatus(404);
+  } else {
+    if (age || kind || name) {
+      if (age) {
+        pets[index].age = age;
+      }
+      if (kind) {
+        pets[index].kind = kind;
+      }
+      if (name) {
+        pets[index].name = name;
+      }
+    }
+    postData();
+    res.send(pets);
+  }
+});
+
+
+app.delete('/pets/:index', auth, function(req, res, next){
+  var index = Number.parseInt(req.params.index);
+
+  if(Number.isNaN(index) || index < 0 || index >= pets.length) {
+    return res.sendStatus(404);
+  } else {
+    pets.splice(index, 1);
+    postData();
+    res.send(pets);
+  }
+});
+
+app.all('/*', auth, function(res, req){
+  res.sendStatus(404);
+});
+
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, {message: err.message });
+});
+
+// start the server
+app.listen(8080, function() {
+  console.log("Starting a server on localhost:8080");
 });
