@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+
+  div.container
+    if reader
+      h1 Editing #{reader.first_name} #{reader.last_name}
+      form(action='/readers/'+reader.id method='post')
+        include ./fields.jade

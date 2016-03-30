@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+
+  h1 Showing All Readers
+
+  if readers
+    table.table.table-striped
+     thead
+       tr
+         th ID
+         th First Name
+         th Last Name
+     tbody
+       for reader in readers
+         tr
+           td= reader.id
+           td= reader.first_name
+           td= reader.last_name
+
+   div
+    a(href='/readers/new') Add a Reader

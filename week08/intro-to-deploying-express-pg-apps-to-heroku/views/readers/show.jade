@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  if reader
+    div.well.well-lg
+      h1= reader.first_name
+      h3= reader.last_name
+      p
+        a.btn-link(href='/readers/'+ reader.id + '/edit') Edit
+        form(action='/readers/#{reader.id}/delete' method='post')
+          input.btn.btn-link(type='submit' value='Delete')

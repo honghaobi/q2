@@ -1,0 +1,9 @@
+extends ../layout 
+
+block content 
+
+  div.container
+    if book
+      h1 Editing #{book.title}
+      form(action='/books/'+book.id method='post')
+        include ./fields.jade
