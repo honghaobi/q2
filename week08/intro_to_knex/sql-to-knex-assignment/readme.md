@@ -5,12 +5,44 @@ For this assignment you will be taking your knowledge of SQL and Knex and writin
 #### Turn the following SQL queries into Knex queries (you can write them next to each SQL query or below):
 
 1. `SELECT * FROM students;`
+
+*  knex('students').select().then(function(data) {
+    console.log(data);
+  });
+
 2. `SELECT * FROM students WHERE id=1;`
+
+*  knex('students').select().where(id:1).then(function(data) {
+    console.log(data);
+  });
+
 2. `SELECT * FROM students WHERE id=5 LIMIT 1;`
+
+*  knex('students').select().where(id:1).limit(1).then(function(data) {
+    console.log(data);
+  });
+
 3. `SELECT COUNT(*) FROM students;`
+
+*  knex('students').select().count(id).then(function(data) {
+    console.log(data);
+  });
+
 4. `SELECT MIN('year') FROM students;`
+
+*  knex('students').select().min('year').then(function(data) {
+    console.log(data);
+  });
+
 5. `SELECT * FROM students WHERE name IS NOT NULL;`
+
+*  knex('students').select().where('name','!=','null').then(function(data) {
+    console.log(data);
+  });
+
 6. `SELECT * FROM todos WHERE id IN ('1', '2', '3') OR user_id IN ('4', '5', '6');`
+
+
 7. `SELECT * FROM students LIMIT 10 OFFSET 30;`
 8. `INSERT INTO students (name,fav_color) VALUES ('tyler','purple');`
 9. `INSERT INTO students (name,fav_color) VALUES ('liz','blue') RETURNING *;`
