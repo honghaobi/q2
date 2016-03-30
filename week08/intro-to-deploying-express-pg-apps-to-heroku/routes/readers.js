@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var knex = require('../db/knex');
+
+function readers() {
+  return knex('readers');
+}
 
 router.get('/readers', function(req, res) {
   readers().select().then(function(results){
@@ -49,4 +54,3 @@ router.post('/readers/:id/delete', function (req, res) {
 })
 
 module.exports = router;
-
