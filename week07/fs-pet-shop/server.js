@@ -1,5 +1,5 @@
-var http = require('http');
-var url = require('url');
+// var http = require('http');
+// var url = require('url');
 
 var express = require('express');
 var app = express();
@@ -58,16 +58,16 @@ function postData(){
 }
 
 app.get('/pets', auth, function(req, res){
-  res.send('here are your pets ' + JSON.stringify(pets));
+  res.send(JSON.stringify(pets));
 });
 
-app.get('/pets/:index', function(req, res) {
+app.get('/pets/:index', auth, function(req, res) {
   var index = req.params.index;
 
   if (isNaN(index) || index >= pets.length || index < 0) {
     res.status(404).send('invalid index');
   } else{
-    res.send('here is your pet ' + JSON.stringify(pets[index]));
+    res.send(JSON.stringify(pets[index]));
   }
 });
 
