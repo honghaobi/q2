@@ -1,5 +1,4 @@
-// var http = require('http');
-// var url = require('url');
+'use strict';
 
 var express = require('express');
 var app = express();
@@ -55,6 +54,7 @@ function postData(){
       return next(writeErr);
     }
   });
+  res.send(pets);
 }
 
 app.get('/pets', auth, function(req, res){
@@ -85,7 +85,7 @@ app.post('/pets', function(req, res, next){
   } else {
     pets.push({ age, kind, name});
     postData();
-    res.send(pets);
+
   }
 });
 
@@ -102,7 +102,7 @@ app.put('/pets/:index', auth, function(req, res, next){
     pets[index].kind = kind;
     pets[index].name = name;
     postData();
-    res.send(pets);
+
   }
 });
 
@@ -127,7 +127,7 @@ app.patch('/pets/:index', auth, function(req, res, next){
       }
     }
     postData();
-    res.send(pets);
+
   }
 });
 
@@ -140,7 +140,7 @@ app.delete('/pets/:index', auth, function(req, res, next){
   } else {
     pets.splice(index, 1);
     postData();
-    res.send(pets);
+
   }
 });
 
