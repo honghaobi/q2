@@ -144,7 +144,7 @@ app.delete('/pets/:index', auth, function(req, res, next){
   }
 });
 
-app.all('/*', auth, function(res, req){
+app.use('/*', auth, function(res, req){
   res.sendStatus(404);
 });
 
