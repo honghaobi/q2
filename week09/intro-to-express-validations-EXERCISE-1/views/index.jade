@@ -1,10 +1,11 @@
-extends layout 
+extends layout
 
-block content 
+block content
 
   div.container
     form(action='/' method='post')
       h1 Sign Up
+      include ./includes/errors.jade
       div.form-group
         label(for="author") Name
         input.form-control(type="text" id="name" name='name' placeholder="Your Name")
