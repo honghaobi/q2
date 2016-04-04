@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+  div.container
+    form(action='/new' method='post')
+      h1 Add A Person
+      include ./includes/errors.jade
+      div.form-group
+        label(for="name") Name
+        input.form-control(type="text" id="name" name='name' placeholder="Your Name")
+      div.form-group
+        label(for="hobby") Hobby
+        input.form-control(type="text" id="hobby" name='hobby' placeholder="Beer Pong")
+
+        button.btn.btn-primary(type="submit") Create Person

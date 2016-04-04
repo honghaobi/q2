@@ -1,0 +1,12 @@
+h1 Showing People
+
+table
+  thead
+    tr
+      th Name
+      th Hobby
+  tbody
+    for user in users
+      tr
+        td= user.name
+        td= user.hobby
