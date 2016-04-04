@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+
+  div.container
+    form(action='/' method='post')
+      h1 Sign Up
+      div.form-group
+        label(for="author") Name
+        input.form-control(type="text" id="name" name='name' placeholder="Your Name")
+      div.form-group
+        label(for="title") Phone Number
+        input.form-control(type="text" id="phone" name='phone' placeholder="774-992-3345")
+      div.form-group
+        label(for="title") Email
+        input.form-control(type="text" id="email" name='email' placeholder="you@somewhere.com")
+        button.btn.btn-primary(type="submit") Submit
