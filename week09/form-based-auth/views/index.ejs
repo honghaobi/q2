@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p><a href='/users'>Users</a></p>
+    <% if (user) { %>
+      <p>Signed in as <%= user.email %>
+      <p><a href='/logout'>Logout</a></p>
+    <% } else { %>
+      <p>Not signed in</p>
+      <p><a href='/signin'>Signin</a></p>
+    <% } %>
+  </body>
+</html>
