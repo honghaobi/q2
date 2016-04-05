@@ -4,21 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
-var parse = require('csv-parse');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var load = require('./load');
 
 var app = express();
-var original_data = [];
 
-var parser = parse({delimiter: ','}, function(err, data){
-  original_data.push(data);
-  console.log(original_data);
-});
-
-fs.createReadStream(__dirname+'/data/galvanize_reads_sample_data.csv').pipe(parser);
+load();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
