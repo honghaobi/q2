@@ -13,9 +13,14 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.post('/signin', (req, res, next) => {
-  req.session.user = req.body;
-  res.redirect('/');
+  Users.authenticateUser(req.body.email, req.body.password, (err, user) => {
+    if (err) {
+      res.render('auth/signin.ejs', {error: err});
+    } else {
+      req.session.user = user;
+      res.redirect('/');
+    }
+  });
 });
 
 module.exports = router;
-

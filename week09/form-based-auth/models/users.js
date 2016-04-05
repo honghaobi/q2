@@ -26,4 +26,20 @@ Users.createUser = (data, callback) => {
   });
 }
 
+Users.authenticateUser = (email, password, callback) => {
+  Users().where({email: email}).first().then(user => {
+    if (!user) {
+      return callback("Email and password don't match");
+    }
+    bcrypt.compare(password, user.password_digest, (err, isMatch) => {
+      console.log(err);
+      if (err || !isMatch) {
+        return callback("Email and password don't match");
+      } else {
+        return callback(undefined, user);
+      }
+    });
+  });
+}
+
 module.exports = Users;
