@@ -53,8 +53,9 @@ function postData(){
     if (writeErr) {
       return next(writeErr);
     }
+
+    res.send(pets);
   });
-  res.send(pets);
 }
 
 app.get('/pets', auth, function(req, res){
@@ -64,11 +65,11 @@ app.get('/pets', auth, function(req, res){
 app.get('/pets/:index', auth, function(req, res) {
   var index = req.params.index;
 
-  if (isNaN(index) || index >= pets.length || index < 0) {
-    res.status(404).send('invalid index');
-  } else{
-    res.send(JSON.stringify(pets[index]));
+  if (Number.isNaN(index) || index >= pets.length || index < 0) {
+    return res.status(404).send('invalid index');
   }
+
+  res.send(JSON.stringify(pets[index]));
 });
 
 app.get('/*', auth, function (req, res) {
@@ -80,13 +81,12 @@ app.post('/pets', function(req, res, next){
   var kind = req.body.kind;
   var name = req.body.name;
 
-  if (!age || !kind || !name) {
-    res.status(400).send('missing a param');
-  } else {
-    pets.push({ age, kind, name});
-    postData();
-
+  if (Number.isNaN(age) || !kind || !name) {
+    return res.status(400).send('missing a param');
   }
+
+  pets.push({ age, kind, name});
+  postData(pets);
 });
 
 app.put('/pets/:index', auth, function(req, res, next){
@@ -97,13 +97,12 @@ app.put('/pets/:index', auth, function(req, res, next){
 
   if(Number.isNaN(index) || index < 0 || index >= pets.length) {
     return res.sendStatus(404);
-  } else {
-    pets[index].age = age;
-    pets[index].kind = kind;
-    pets[index].name = name;
-    postData();
-
   }
+
+  pets[index].age = age;
+  pets[index].kind = kind;
+  pets[index].name = name;
+  postData(pets);
 });
 
 app.patch('/pets/:index', auth, function(req, res, next){
@@ -114,34 +113,32 @@ app.patch('/pets/:index', auth, function(req, res, next){
 
   if(Number.isNaN(index) || index < 0 || index >= pets.length) {
     return res.sendStatus(404);
-  } else {
-    if (age || kind || name) {
-      if (age) {
-        pets[index].age = age;
-      }
-      if (kind) {
-        pets[index].kind = kind;
-      }
-      if (name) {
-        pets[index].name = name;
-      }
-    }
-    postData();
+  }
 
+  if (age || kind || name) {
+    if (age) {
+      pets[index].age = age;
+    }
+    if (kind) {
+      pets[index].kind = kind;
+    }
+    if (name) {
+      pets[index].name = name;
+    }
+
+  postData(pets);
   }
 });
-
 
 app.delete('/pets/:index', auth, function(req, res, next){
   var index = Number.parseInt(req.params.index);
 
   if(Number.isNaN(index) || index < 0 || index >= pets.length) {
     return res.sendStatus(404);
-  } else {
-    pets.splice(index, 1);
-    postData();
-
   }
+
+  pets.splice(index, 1);
+  postData(pets);
 });
 
 app.use('/*', auth, function(res, req){
