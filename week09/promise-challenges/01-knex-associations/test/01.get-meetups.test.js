@@ -12,7 +12,7 @@ describe("Queries", function () {
     .then(function (ids) {
       rallyId = ids[0][0];
       zayoId = ids[1][0];
-    })
+    });
   });
 
   describe("#getMeetups", function () {
@@ -26,10 +26,10 @@ describe("Queries", function () {
       .then(function (ids) {
         javaId = ids[0][0];
         rustId = ids[1][0];
-      })
+      });
     });
 
-    xit("returns all meetups", function () {
+    it("returns all meetups", function () {
       var promise = getMeetups();
       return promise
         .should.eventually.contain( {id: javaId, name: 'Java', location_id: rallyId, description: null} )

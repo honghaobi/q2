@@ -13,5 +13,7 @@ var knex = require('./knex');
 // * http://knexjs.org/#Builder-where
 // * http://knexjs.org/#Builder-first
 //
+
 module.exports = function (meetupId) {
-}
+  return knex('meetups').select().where({id:meetupId}).first();
+};

@@ -16,4 +16,9 @@ var knex = require('./knex');
 //    }
 //
 module.exports = function (locationId) {
-}
+  return knex('locations').select().where({id:locationId}).first().then(function(location){
+    return knex('meetups').select().where({location_id:location.id}).then(function(meetups){
+      return {location, meetups};
+    });
+  });
+};

@@ -17,4 +17,12 @@ var knex = require('./knex');
 //    }
 //
 module.exports = function (meetupId) {
-}
+  return knex('meetups').select().where({id:meetupId}).first().then(function(meetup){
+    return knex('memberships').pluck('user_id').where({meetup_id:meetup.id}).then(function(user_id){
+      return  knex('users').select('id','name').whereIn('id',user_id).then(function(members){
+        return {meetup,members};
+      });
+    });
+  });
+
+};

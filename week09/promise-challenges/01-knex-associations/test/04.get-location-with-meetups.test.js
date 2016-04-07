@@ -12,7 +12,7 @@ describe("Queries", function () {
     .then(function (ids) {
       rallyId = ids[0][0];
       zayoId = ids[1][0];
-    })
+    });
   });
 
   describe("#getLocationWithMeetups", function () {
@@ -26,10 +26,10 @@ describe("Queries", function () {
       .then(function (ids) {
         javaId = ids[0][0];
         rustId = ids[1][0];
-      })
+      });
     });
 
-    xit("returns the location along with the meetups for that location", function () {
+    it("returns the location along with the meetups for that location", function () {
       return getLocationWithMeetups(rallyId).should.become({
         location: {id: rallyId, name: 'Rally', address: '123 Main'},
         meetups: [

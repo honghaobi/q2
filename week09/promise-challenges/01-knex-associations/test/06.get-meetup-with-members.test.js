@@ -12,7 +12,7 @@ describe("Queries", function () {
     .then(function (ids) {
       rallyId = ids[0][0];
       zayoId = ids[1][0];
-    })
+    });
   });
 
   describe("#getMeetupWithMembers", function () {
@@ -44,7 +44,7 @@ describe("Queries", function () {
       });
     });
 
-    xit("returns the meetup with the given id along with the members", function () {
+    it("returns the meetup with the given id along with the members", function () {
       return getMeetupWithMembers(javaId).should.become({
         meetup: {id: javaId, name: 'Java', location_id: rallyId, description: null},
         members: [ {id: tedId, name: 'Ted'} ]

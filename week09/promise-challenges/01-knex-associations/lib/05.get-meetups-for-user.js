@@ -20,4 +20,11 @@ var knex = require('./knex');
 //  * http://knexjs.org/#Builder-whereIn
 //
 module.exports = function (userId) {
-}
+  return knex('users').select().where({id:userId}).first().then(function(user){
+    return knex('memberships').pluck('meetup_id').where({user_id:user.id}).then(function(membership){
+      return knex('meetups').select().whereIn('id', membership).then(function(data){
+        return data;
+      });
+    });
+  });
+};

@@ -26,15 +26,14 @@ describe("Queries", function () {
       .then(function (ids) {
         javaId = ids[0][0];
         rustId = ids[1][0];
-      })
+      });
     });
 
-    xit("returns the meetup with the given id along with the location", function () {
+    it("returns the meetup with the given id along with the location", function () {
       return getMeetupWithLocation(javaId).should.become({
         meetup: {id: javaId, name: 'Java', location_id: rallyId, description: null},
         location: {id: rallyId, name: 'Rally', address: '123 Main'}
       });
     });
   });
-
 });
