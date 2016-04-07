@@ -1,0 +1,12 @@
+<h1>Meetup With Members</h1>
+
+<h2>Meetup: {{meetup.name}}</h2>
+<p>
+  {{meetup.description}}
+</p>
+
+{{#each members}}
+  <ul>
+    <li>{{name}}</li>
+  </ul>
+{{/each}}

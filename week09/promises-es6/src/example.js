@@ -1,3 +1,5 @@
+var bluebirdPromise = require('bluebird');
+
 module.exports = {
   // your code here
   simplePromise: function(val) {
@@ -39,3 +41,8 @@ module.exports = {
     });
   }
 };
+
+new bluebirdPromise(function(resolve, reject){
+  console.log('A promise.');
+  throw 'Boom!';
+});

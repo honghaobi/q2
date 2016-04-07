@@ -1,0 +1,15 @@
+{
+  "name": "spotify-promises-example",
+  "version": "1.0.0",
+  "description": "This script is an example of how using promises can make thinking asynchronously significantly easier. To run the code, clone this repo then:",
+  "main": "albumsWithTracks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.70.0"
+  }
+}

@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-md-2">
+    <h2>Users</h2>
+  </div>
+  <div class="col-md-10">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+        <tr>
+          <td><a href="/users/{{id}}">{{name}}</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <h2>Locations</h2>
+  </div>
+  <div class="col-md-10">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each locations}}
+          <tr>
+            <td><a href="/locations/{{id}}">{{name}}</a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <h2>Meetups</h2>
+  </div>
+  <div class="col-md-10">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each meetups}}
+          <tr>
+            <td><a href="/meetups/{{id}}">{{name}}</a></td>
+            <td><a href="/meetups/{{id}}/location">View with Location</a></td>
+            <td><a href="/meetups/{{id}}/members">View with Members</a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

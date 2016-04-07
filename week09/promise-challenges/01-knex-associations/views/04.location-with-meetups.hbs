@@ -1,0 +1,27 @@
+<h1>Location with Meetups</h1>
+
+<section>
+  <h1>{{location.name}}</h1>
+  <p>{{location.address}}</p>
+</section>
+
+<h2>Meetups</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each meetups}}
+      <tr>
+        <td><a href="/meetups/{{id}}">{{name}}</a></td>
+        <td><a href="/meetups/{{id}}/location">View with Location</a></td>
+        <td><a href="/meetups/{{id}}/members">View with Members</a></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
