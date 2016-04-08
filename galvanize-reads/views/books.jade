@@ -5,13 +5,13 @@ block content
   .row.column
     a.large.success.expanded.button(href='author/create') Add A Book
   .row.small-up-1.medium-up-2.large-up-3
-    for book in allBooks
+    for book in books
       .column
         .callout
           h4= book.title
           p
             img(src=book.cover, alt=book.title)
-          p.lead author name
+          p.lead=book.full_name
           p.subheader=book.genre
           p.text.subheader=book.description
           a.warning.expanded.button(href=book.id+'/edit') Edit Book

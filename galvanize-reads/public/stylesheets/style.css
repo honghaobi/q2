@@ -30,3 +30,13 @@ img.bg {
   white-space: normal;
   overflow: auto;
 }
+
+h1.quote{
+  text-shadow: 10px 10px 9px rgba(240, 240, 240, 0.2);
+  color: rgba(220, 220, 220, 0.9);
+}
+
+.sub-img{
+  width: 20%;
+  margin: 4%;
+}

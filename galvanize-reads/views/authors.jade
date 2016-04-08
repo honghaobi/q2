@@ -5,13 +5,14 @@ block content
   .row.column
     a.large.success.expanded.button(href='author/create') Add An Author
   .row.small-up-1.medium-up-2.large-up-3
-    for author in allAuthors
+    for authorBooksObjs in finalBooksByAuthor
       .column
         .callout
           p
-            img(src=author.portrait_url, alt=author.full_name)
-          p.lead=author.full_name
-          p.subheader books written
-          p.text.subheader=author.biography
-          a.warning.expanded.button(href=author.full_name+'/edit') Edit Author
-          a.alert.expanded.button(href=author.full_name+'/remove') Remove Author
+            img(src=authorBooksObjs.author.portrait_url, alt=authorBooksObjs.author.full_name)
+          p.lead=authorBooksObjs.author.full_name
+          for book in authorBooksObjs.booksByAuthor
+            img.sub-img(src=book.cover, alt=book.title)
+          p.text.subheader=authorBooksObjs.author.biography
+          a.warning.expanded.button(href=authorBooksObjs.author.full_name+'/edit') Edit Author
+          a.alert.expanded.button(href=authorBooksObjs.author.full_name+'/remove') Remove Author
