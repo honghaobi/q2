@@ -13,3 +13,20 @@ img.bg {
   left: 0;
   z-index: -99;
 }
+
+.text{
+  white-space: nowrap;
+  overflow: auto;
+  width: auto;
+  text-overflow: ellipsis;
+  transition: white-space 1s ease-in;
+}
+
+.text:hover{
+  cursor:context-menu;
+}
+
+.text-show{
+  white-space: normal;
+  overflow: auto;
+}

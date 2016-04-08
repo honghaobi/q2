@@ -20,14 +20,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/authors', function(req, res, next) {
-  Authors().select().then(function (rows) {
-    res.render('authors', {allAuthors: rows});
+  Authors().select().then(function (authors) {
+    res.render('authors', {allAuthors: authors});
   });
 });
 
 router.get('/books', function(req, res, next) {
-  Books().select().then(function (rows) {
-    res.render('books', {allBooks: rows});
+  Books().select().then(function (books) {
+    res.render('books', {allBooks: books});
   });
 });
 
