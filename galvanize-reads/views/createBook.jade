@@ -26,27 +26,25 @@ block content
         .small-8.columns 
           label
             | Select Exisiting Authors
-            select
+            select.authorSelection
               for author in authors
-                option(value='author.id')=author.full_name
+                option(value=author.id)=author.full_name
         .small-4.columns 
           br
-          a.success.button Add Author
+          a.success.button.addAuthor Add Author
         hr
       
       .callout
         .small-8.columns 
           label
           | Added Authors to This Book:
-          select(multiple='')
-            option(value='1') added author 1
-
-  
+          select(multiple='').addedAuthor
+            
         .small-4.columns 
           br
           br
           br
-          a.alert.button Remove Author
+          a.alert.button.removeAuthor Remove Author
         hr
         
       .callout
