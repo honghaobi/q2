@@ -19,12 +19,6 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-// router.get('/authors', function(req, res, next) {
-//   Authors().join('author_book_relationship', 'authors.id', 'author_book_relationship.author_id').join('books', 'books.id', 'author_book_relationship.book_id').select().then(function (authors) {
-//     res.render('authors', {authors});
-//   });
-// });
-
 router.get('/authors', function(req, res, next) {
 
   var getBooksByAuthor = function(authorId) {
@@ -35,21 +29,29 @@ router.get('/authors', function(req, res, next) {
     });
   };
 
-    var uniqueAuthorIdArray = [];
-
-    Authors().pluck('id').then(function (authorIdArray) {
-      uniqueAuthorIdArray = authorIdArray;
-      var booksByAuthor = authorIdArray.map(getBooksByAuthor);
-      Promise.all(booksByAuthor).then(function(finalBooksByAuthor){
-        console.log(finalBooksByAuthor);
-        res.render('authors', {finalBooksByAuthor});
-      });
+  Authors().pluck('id').then(function (authorsIdArray) {
+    var booksByAuthor = authorsIdArray.map(getBooksByAuthor);
+    Promise.all(booksByAuthor).then(function(renderBooksByAuthor){
+      res.render('authors', {renderBooksByAuthor});
     });
+  });
 });
 
 router.get('/books', function(req, res, next) {
-  Books().join('author_book_relationship', 'books.id', 'author_book_relationship.book_id').join('authors', 'authors.id', 'author_book_relationship.author_id').select().then(function (books) {
-    res.render('books', {books});
+
+  var getAuthorsByBook = function(bookId) {
+    return Books().select().first().where({id:bookId}).then(function(book){
+      return Books().join('author_book_relationship', 'books.id', 'author_book_relationship.book_id').join('authors', 'authors.id', 'author_book_relationship.author_id').select().where({'books.id': bookId}).then(function (authorsByBook) {
+        return {book, authorsByBook} ;
+      });
+    });
+  };
+
+  Books().pluck('id').then(function (booksIdArray) {
+    var authorsByBook = booksIdArray.map(getAuthorsByBook);
+    Promise.all(authorsByBook).then(function(renderAuthorsByBook){
+      res.render('books', {renderAuthorsByBook});
+    });
   });
 });
 
