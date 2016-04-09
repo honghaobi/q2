@@ -3,17 +3,19 @@ extends layout
 block content
 
   .row.column
-    a.large.success.expanded.button(href='author/create') Add A Book
+    a.large.success.expanded.button(href='books/create') Add A Book
   .row.small-up-1.medium-up-2.large-up-3
     for bookAuthorsObjs in renderAuthorsByBook
       .column
         .callout
           h4= bookAuthorsObjs.book.title
           p
-            img(src=bookAuthorsObjs.book.cover, alt=bookAuthorsObjs.book.title)
+            a(href='books/' + bookAuthorsObjs.book.id)
+              img(src=bookAuthorsObjs.book.cover, alt=bookAuthorsObjs.book.title)
           //- p.header Author(s):
           for author in bookAuthorsObjs.authorsByBook
-            img.sub-img(src=author.portrait_url, alt=author.full_name)
+            a(href='authors/' + author.id)
+              img.sub-img(src=author.portrait_url, alt=author.full_name)
             //- p.header=author.full_name
           p.subheader=bookAuthorsObjs.book.genre
           p.text.subheader=bookAuthorsObjs.book.description

@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .row
+    .large-4.columns
+      .callout
+        h3=renderAuthorByBook.book.title
+        p
+          img(src=renderAuthorByBook.book.cover, alt=renderAuthorByBook.book.title)
+    .large-8.columns
+      .row
+        .small-8.columns
+          .callout
+            p.h2=renderAuthorByBook.book.genre
+            p.subheader=renderAuthorByBook.book.description
+        .small-4.columns
+          .callout
+            a.warning.expanded.button(href=renderAuthorByBook.book.id+'/edit') Edit Book
+            a.alert.expanded.button(href=renderAuthorByBook.book.id+'/remove') Remove book
+      .row    
+        for author in renderAuthorByBook.authorsByBook
+          .small-4.columns  
+            .callout
+              a(href='../authors/' + author.id)
+                p.header=author.full_name
+                img.sub-img-author(src=author.portrait_url, alt=author.full_name)

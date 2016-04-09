@@ -9,10 +9,13 @@ block content
       .column
         .callout
           p
-            img(src=authorBooksObjs.author.portrait_url, alt=authorBooksObjs.author.full_name)
+            a(href='authors/' + authorBooksObjs.author.id)
+              img(src=authorBooksObjs.author.portrait_url, alt=authorBooksObjs.author.full_name)
           p.lead=authorBooksObjs.author.full_name
+          p Books Written by Author:
           for book in authorBooksObjs.booksByAuthor
-            img.sub-img(src=book.cover, alt=book.title)
+            a(href='books/' + book.id)
+              p=book.title
           p.text.subheader=authorBooksObjs.author.biography
           a.warning.expanded.button(href=authorBooksObjs.author.full_name+'/edit') Edit Author
           a.alert.expanded.button(href=authorBooksObjs.author.full_name+'/remove') Remove Author

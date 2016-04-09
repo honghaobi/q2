@@ -1,3 +1,10 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;
@@ -11,7 +18,7 @@ img.bg {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -99;
+  z-index: -999;
 }
 
 .text{
@@ -39,4 +46,14 @@ h1.quote{
 .sub-img{
   width: 25%;
   margin: 4%;
+}
+
+.sub-img-author{
+  width: 80%;
+  margin: 5%;
+}
+
+.sub-img-book{
+  width: 80%;
+  margin: 5%;
 }
