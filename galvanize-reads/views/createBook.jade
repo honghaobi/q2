@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  
+  .row
+    .medium-6.columns
+      .callout
+        label
+          | Title
+          input(type='text', placeholder='To Kill a Mockingbird')
+
+        label
+          | Genre
+          input(type='text', placeholder='American Literature')
+          
+        label
+          | Cover Image Url
+          input(type='text', placeholder='http://t2.gstatic.com/images?q=tbn:ANd9GcRiipbCPZtzzrw2M9GSXFpD94NDqs62jBZ81ZxP411OorUCqVLc')
+          
+        label
+          | Description
+          textarea(placeholder='To Kill a Mockingbird is a novel by Harper Lee published in 1960. It was immediately successful, winning the Pulitzer Prize, and has become a classic of modern American literature.')
+        
+    .medium-6.columns    
+      .callout
+        .small-8.columns 
+          label
+            | Select Exisiting Authors
+            select
+              for author in authors
+                option(value='author.id')=author.full_name
+        .small-4.columns 
+          br
+          a.success.button Add Author
+        hr
+      
+      .callout
+        .small-8.columns 
+          label
+          | Added Authors to This Book:
+          select(multiple='')
+            option(value='1') added author 1
+
+  
+        .small-4.columns 
+          br
+          br
+          br
+          a.alert.button Remove Author
+        hr
+        
+      .callout
+        a.expanded.success.button Add Book
+      

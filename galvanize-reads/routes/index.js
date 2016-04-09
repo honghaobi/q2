@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/authors', function(req, res, next) {
-  Authors().pluck('id').then(function (authorsIdArray) {
+  Authors().pluck('id').then(function(authorsIdArray) {
     var booksByAuthor = authorsIdArray.map(getBooksByAuthor);
     Promise.all(booksByAuthor).then(function(renderBooksByAuthor){
       res.render('authors', {renderBooksByAuthor});
@@ -45,13 +45,24 @@ router.get('/authors', function(req, res, next) {
 });
 
 router.get('/books', function(req, res, next) {
-  Books().pluck('id').then(function (booksIdArray) {
+  Books().pluck('id').then(function(booksIdArray) {
     var authorsByBook = booksIdArray.map(getAuthorsByBook);
     Promise.all(authorsByBook).then(function(renderAuthorsByBook){
       res.render('books', {renderAuthorsByBook});
     });
   });
 });
+
+router.get('/books/create', function(req, res, next) {
+  Authors().select().then(function(authors) {
+    res.render('createBook', {authors});
+  });
+});
+
+router.get('/authors/create', function(req, res, next) {
+  res.render('createAuthor');
+});
+
 
 router.get('/books/:id', function(req, res, next) {
   Promise.resolve(getAuthorsByBook(req.params.id)).then(function(renderAuthorByBook){
@@ -63,16 +74,6 @@ router.get('/authors/:id', function(req, res, next) {
   Promise.resolve(getBooksByAuthor(req.params.id)).then(function(renderBookByAuthor){
     res.render('author', {renderBookByAuthor});
   });
-});
-
-router.get('/books/create', function(req, res, next) {
-
-  res.render('create-book',{});
-});
-
-router.get('/authors/create', function(req, res, next) {
-
-  res.render('create-author',{});
 });
 
 module.exports = router;
