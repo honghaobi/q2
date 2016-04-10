@@ -60,16 +60,12 @@ router.get('/books/create', function(req, res, next) {
 });
 
 router.post('/books/create', function(req, res, next) {
-  console.log(req.body.title);
-  console.log(req.body.genre);
-  console.log(req.body.cover);
-  console.log(req.body.description);
-  console.log(req.body.author);
 
-  Books().returning('id').insert({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
-    console.log(data.id);
-    ABR().insert({author_id: req.body.author, book_id: 7}).then(function(data){
-
+  Books().insert({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
+    Books().select().first().where({title:req.body.title}).then(function(newbook){
+      ABR().insert({author_id: req.body.author, book_id: newbook.id}).then(function(data){
+        res.redirect('/books');
+      });
     });
   });
 
