@@ -59,6 +59,18 @@ router.get('/books/create', function(req, res, next) {
   });
 });
 
+router.post('/books/create', function(req, res, next) {
+  console.log(req.body.title);
+  console.log(req.body.genre);
+  console.log(req.body.cover);
+  console.log(req.body.description);
+  console.log(req.body.author);
+
+  Books().insert()
+
+
+});
+
 router.get('/authors/create', function(req, res, next) {
   res.render('createAuthor');
 });
