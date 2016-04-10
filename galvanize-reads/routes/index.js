@@ -60,22 +60,45 @@ router.get('/books/create', function(req, res, next) {
 });
 
 router.post('/books/create', function(req, res, next) {
-
   Books().insert({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
     Books().select().first().where({title:req.body.title}).then(function(newbook){
-      ABR().insert({author_id: req.body.author, book_id: newbook.id}).then(function(data){
-        res.redirect('/books');
-      });
+      if (typeof(req.body.author)==='object') {
+        for (var i = 0; i < req.body.author.length; i++) {
+          ABR().insert({author_id: req.body.author[i], book_id: newbook.id}).then(function(data){
+          });
+        }
+      } else{
+        ABR().insert({author_id: req.body.author, book_id: newbook.id}).then(function(data){
+        });
+      }
+      res.redirect('/books');
     });
   });
-
-
 });
 
 router.get('/authors/create', function(req, res, next) {
-  res.render('createAuthor');
+  Books().select().then(function(books) {
+    res.render('createAuthor', {books});
+  });
 });
 
+router.post('/authors/create', function(req, res, next) {
+  console.log(req.body.book);
+  Authors().insert({full_name: req.body.first_name + ' ' + req.body.last_name , portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
+    Authors().select().first().where({full_name: req.body.first_name + ' ' + req.body.last_name}).then(function(newAuthor){
+      if (typeof(req.body.book)==='object') {
+        for (var i = 0; i < req.body.book.length; i++) {
+          ABR().insert({book_id: req.body.book[i], author_id: newAuthor.id}).then(function(data){
+          });
+        }
+      } else{
+        ABR().insert({book_id: req.body.book, author_id: newAuthor.id}).then(function(data){
+        });
+      }
+      res.redirect('/authors');
+    });
+  });
+});
 
 router.get('/books/:id', function(req, res, next) {
   Promise.resolve(getAuthorsByBook(req.params.id)).then(function(renderAuthorByBook){
