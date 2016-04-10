@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('.addedAuthor option:selected').remove();
   });
 
-  $('input.expanded.success.button').on('click', function(event) {
+  $('input.expanded.success.large.button').on('click', function(event) {
     $('.addedAuthor option').prop('selected', true);
   });
 });

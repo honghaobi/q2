@@ -66,7 +66,12 @@ router.post('/books/create', function(req, res, next) {
   console.log(req.body.description);
   console.log(req.body.author);
 
-  Books().insert()
+  Books().returning('id').insert({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
+    console.log(data.id);
+    ABR().insert({author_id: req.body.author, book_id: 7}).then(function(data){
+
+    });
+  });
 
 
 });
