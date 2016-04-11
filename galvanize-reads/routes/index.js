@@ -22,9 +22,25 @@ function getBooksByAuthor (authorId) {
   });
 };
 
+function getBooksByAuthorName (authorName) {
+  return Authors().select().first().where({full_name:authorName}).then(function(author){
+    return Authors().join('author_book_relationship', 'authors.id', 'author_book_relationship.author_id').join('books', 'books.id', 'author_book_relationship.book_id').select().where({full_name:authorName}).then(function (booksByAuthor) {
+      return {author, booksByAuthor} ;
+    });
+  });
+};
+
 function getAuthorsByBook (bookId) {
   return Books().select().first().where({id:bookId}).then(function(book){
-    return Books().join('author_book_relationship', 'books.id', 'author_book_relationship.book_id').join('authors', 'authors.id', 'author_book_relationship.author_id').select().where({'books.id': bookId}).then(function (authorsByBook) {
+    return Books().join('author_book_relationship', 'books.id', 'author_book_relationship.book_id').join('authors', 'authors.id', 'author_book_relationship.author_id').select().where({'books.id':bookId}).then(function (authorsByBook) {
+      return {book, authorsByBook} ;
+    });
+  });
+};
+
+function getAuthorsByBookTitle (bookTitle) {
+  return Books().select().first().where({title:bookTitle}).then(function(book){
+    return Books().join('author_book_relationship', 'books.id', 'author_book_relationship.book_id').join('authors', 'authors.id', 'author_book_relationship.author_id').select().where({title:bookTitle}).then(function (authorsByBook) {
       return {book, authorsByBook} ;
     });
   });
@@ -175,6 +191,21 @@ router.get('/authors/:id/delete', function(req, res, next) {
   Authors().del().where({id:req.params.id}).then(function(){
     res.redirect('/authors');
   });
+});
+
+router.post('/search', function(req, res, next) {
+  if (req.body.searchBook) {
+    console.log(req.body.searchBook);
+    Promise.resolve(getAuthorsByBookTitle(req.body.searchBook)).then(function(renderAuthorByBook){
+      res.redirect('/books/' + renderAuthorByBook.book.id);
+
+    });
+  } else if (req.body.searchAuthor) {
+    console.log(req.body.searchAuthor);
+    Promise.resolve(getBooksByAuthorName(req.body.searchAuthor)).then(function(renderBookByAuthor){
+      res.redirect('/authors/' + renderBookByAuthor.author.id);
+    });
+  }
 });
 
 module.exports = router;
