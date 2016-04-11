@@ -15,7 +15,7 @@ block content
         .small-4.columns
           .callout
             a.warning.expanded.button(href=renderBookByAuthor.author.id+'/edit') Edit Author
-            a.alert.expanded.button(href=renderBookByAuthor.author.id+'/remove') Remove Author
+            a.alert.expanded.button(href=renderBookByAuthor.author.id+'/delete') Remove Author
       .row    
         for book in renderBookByAuthor.booksByAuthor
           .small-4.columns  

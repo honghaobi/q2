@@ -1,0 +1,55 @@
+extends layout
+
+block content
+
+  form(action="/books/" + renderAuthorByBook.book.id + "/edit", method="post")
+
+    .row
+      .medium-6.columns
+        .callout
+          label
+            | Title
+            input(type='text', name='title', value=renderAuthorByBook.book.title)
+
+          label
+            | Genre
+            input(type='text', name='genre', value=renderAuthorByBook.book.genre)
+            
+          label
+            | Cover Image Url
+            input(type='text', name='cover', value=renderAuthorByBook.book.cover)
+            
+          label
+            | Description
+            textarea(name='description')=renderAuthorByBook.book.description
+          
+      .medium-6.columns    
+        .callout
+          .small-8.columns 
+            label
+              | Select Exisiting Authors
+              select.authorSelection
+                for author in allAuthors
+                  option(value=author.id)=author.full_name
+          .small-4.columns 
+            br
+            a.success.button.addAuthor Add Author
+          hr
+        
+        .callout
+          .small-8.columns 
+            label
+            | Authors:
+            select(multiple='', name='author').addedAuthor
+              for author in renderAuthorByBook.authorsByBook
+                option(value=author.id)=author.full_name              
+          .small-4.columns 
+            br
+            br
+            br
+            a.alert.button.removeAuthor Remove Author
+          hr
+          
+        .callout
+          input.expanded.success.large.button(type='submit', value='Edit This Book')
+        

@@ -19,5 +19,5 @@ block content
             //- p.header=author.full_name
           p.subheader=bookAuthorsObjs.book.genre
           p.text.subheader=bookAuthorsObjs.book.description
-          a.warning.expanded.button(href=bookAuthorsObjs.book.id+'/edit') Edit Book
-          a.alert.expanded.button(href=bookAuthorsObjs.book.id+'/remove') Remove book
+          a.warning.expanded.button(href='/books/'+bookAuthorsObjs.book.id+'/edit') Edit Book
+          a.alert.expanded.button(href='/books/'+bookAuthorsObjs.book.id+'/delete') Remove book

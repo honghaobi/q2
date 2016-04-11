@@ -83,7 +83,6 @@ router.get('/authors/create', function(req, res, next) {
 });
 
 router.post('/authors/create', function(req, res, next) {
-  console.log(req.body.book);
   Authors().insert({full_name: req.body.first_name + ' ' + req.body.last_name , portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
     Authors().select().first().where({full_name: req.body.first_name + ' ' + req.body.last_name}).then(function(newAuthor){
       if (typeof(req.body.book)==='object') {
@@ -109,6 +108,72 @@ router.get('/books/:id', function(req, res, next) {
 router.get('/authors/:id', function(req, res, next) {
   Promise.resolve(getBooksByAuthor(req.params.id)).then(function(renderBookByAuthor){
     res.render('author', {renderBookByAuthor});
+  });
+});
+
+router.get('/books/:id/edit', function(req, res, next) {
+  Promise.resolve(getAuthorsByBook(req.params.id)).then(function(renderAuthorByBook){
+    Authors().select().then(function(allAuthors){
+      res.render('editBook', {renderAuthorByBook, allAuthors});
+    });
+  });
+});
+
+router.get('/authors/:id/edit', function(req, res, next) {
+  Promise.resolve(getBooksByAuthor(req.params.id)).then(function(renderBookByAuthor){
+    Books().select().then(function(allBooks){
+      res.render('editAuthor', {renderBookByAuthor, allBooks});
+    });
+  });
+});
+
+router.post('/books/:id/edit', function(req, res, next) {
+  Books().where({id:req.params.id}).update({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
+    Books().select().first().where({id:req.params.id}).then(function(editbook){
+      ABR().del().where({book_id: editbook.id}).then(function(){
+        if (typeof(req.body.author)==='object') {
+          for (var i = 0; i < req.body.author.length; i++) {
+            ABR().insert({author_id: req.body.author[i], book_id: editbook.id}).then(function(data){
+            });
+          }
+        } else{
+          ABR().insert({author_id: req.body.author, book_id: editbook.id}).then(function(data){
+          });
+        }
+        res.redirect('/books/' + req.params.id);
+      });
+    });
+  });
+});
+
+router.post('/authors/:id/edit', function(req, res, next) {
+  Authors().where({id:req.params.id}).update({full_name: req.body.full_name, portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
+    Authors().select().first().where({id:req.params.id}).then(function(editAuthor){
+      ABR().del().where({author_id: editAuthor.id}).then(function(){
+        if (typeof(req.body.book)==='object') {
+          for (var i = 0; i < req.body.book.length; i++) {
+            ABR().insert({book_id: req.body.book[i], author_id: editAuthor.id}).then(function(data){
+            });
+          }
+        } else{
+          ABR().insert({book_id: req.body.book, author_id: editAuthor.id}).then(function(data){
+          });
+        }
+        res.redirect('/authors/' + req.params.id);
+      });
+    });
+  });
+});
+
+router.get('/books/:id/delete', function(req, res, next) {
+  Books().del().where({id:req.params.id}).then(function(){
+    res.redirect('/books');
+  });
+});
+
+router.get('/authors/:id/delete', function(req, res, next) {
+  Authors().del().where({id:req.params.id}).then(function(){
+    res.redirect('/authors');
   });
 });
 

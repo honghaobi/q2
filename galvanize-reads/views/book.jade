@@ -15,8 +15,8 @@ block content
             p.subheader=renderAuthorByBook.book.description
         .small-4.columns
           .callout
-            a.warning.expanded.button(href=renderAuthorByBook.book.id+'/edit') Edit Book
-            a.alert.expanded.button(href=renderAuthorByBook.book.id+'/remove') Remove book
+            a.warning.expanded.button(href=renderAuthorByBook.book.id + '/edit') Edit Book
+            a.alert.expanded.button(href=renderAuthorByBook.book.id + '/delete') Remove book
       .row    
         for author in renderAuthorByBook.authorsByBook
           .small-4.columns  

@@ -1,0 +1,51 @@
+extends layout
+
+block content
+
+  form(action="/authors/" + renderBookByAuthor.author.id + "/edit", method="post")
+
+    .row
+      .medium-6.columns
+        .callout
+          label
+            | Full Name
+            input(type='text', name='full_name', value=renderBookByAuthor.author.full_name)
+
+          label
+            | Portrait URL
+            input(type='text', name='portrait_url', value=renderBookByAuthor.author.portrait_url)
+            
+          label
+            | Biography
+            textarea(name='biography')=renderBookByAuthor.author.biography
+          
+      .medium-6.columns    
+        .callout
+          .small-8.columns 
+            label
+              | Select Exisiting Books
+              select.bookSelection
+                for book in allBooks
+                  option(value=book.id)=book.title
+          .small-4.columns 
+            br
+            a.success.button.addBook Add Book
+          hr
+        
+        .callout
+          .small-8.columns 
+            label
+            | Books:
+            select(multiple='', name='book').addedBook
+              for book in renderBookByAuthor.booksByAuthor
+                option(value=book.id)=book.title
+          .small-4.columns 
+            br
+            br
+            br
+            a.alert.button.removeBook Remove Book
+          hr
+          
+        .callout
+          input.expanded.success.large.button(type='submit', value='Edit This Author')
+        

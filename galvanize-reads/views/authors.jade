@@ -17,5 +17,5 @@ block content
             a(href='books/' + book.id)
               p=book.title
           p.text.subheader=authorBooksObjs.author.biography
-          a.warning.expanded.button(href=authorBooksObjs.author.full_name+'/edit') Edit Author
-          a.alert.expanded.button(href=authorBooksObjs.author.full_name+'/remove') Remove Author
+          a.warning.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/edit') Edit Author
+          a.alert.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/delete') Remove Author
