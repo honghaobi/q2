@@ -1,15 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+function userLoggedIn(req, res, next) {
+  if (req.cookies.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+router.get('/', userLoggedIn, function(req, res, next) {
   res.render('products/index', {title: 'All products'})
 });
 
-router.get('/popular', function(req, res, next) {
+router.get('/popular', userLoggedIn, function(req, res, next) {
   res.render('products/index', {title: 'Popular Products'})
 });
 
-router.get('/on-sale', function(req, res, next) {
+router.get('/on-sale', userLoggedIn, function(req, res, next) {
   res.render('products/index', {title: 'Products on sale'})
 });
 
