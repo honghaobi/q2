@@ -7,7 +7,13 @@ $(document).ready(function() {
   $('.addAuthor').on('click', function(event) {
       var authorID = $('.authorSelection').val();
       var authorName = $('.authorSelection option:selected').text();
-      $('.addedAuthor').append("<option value=" + authorID + ">" + authorName + "</option>");
+      var addedAuthors = ($('.addedAuthor option').text());
+
+        if (addedAuthors.indexOf(authorName) < 0) {
+          $('.addedAuthor').append("<option value=" + authorID + ">" + authorName + "</option>");
+        } else {
+          return;
+        }
     });
 
   $('.removeAuthor').on("click", function(event) {
@@ -17,7 +23,14 @@ $(document).ready(function() {
   $('.addBook').on('click', function(event) {
       var bookID = $('.bookSelection').val();
       var bookName = $('.bookSelection option:selected').text();
-      $('.addedBook').append("<option value=" + bookID + ">" + bookName + "</option>");
+      var addedBooks = ($('.addedBook option').text());
+
+        if (addedBooks.indexOf(bookName) < 0) {
+          $('.addedBook').append("<option value=" + bookID + ">" + bookName + "</option>");
+        } else {
+          return;
+        }
+
     });
 
   $('.removeBook').on("click", function(event) {
