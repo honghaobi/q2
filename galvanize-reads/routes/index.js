@@ -51,6 +51,19 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.post('/search', function(req, res, next) {
+  if (req.body.searchBook) {
+    console.log(req.body.searchBook);
+    Promise.resolve(getAuthorsByBookTitle(req.body.searchBook)).then(function(renderAuthorByBook){
+      res.redirect('/books/' + renderAuthorByBook.book.id);
+    });
+  } else if (req.body.searchAuthor) {
+    Promise.resolve(getBooksByAuthorName(req.body.searchAuthor)).then(function(renderBookByAuthor){
+      res.redirect('/authors/' + renderBookByAuthor.author.id);
+    });
+  }
+});
+
 router.get('/authors', function(req, res, next) {
   Authors().pluck('id').then(function(authorsIdArray) {
     var booksByAuthor = authorsIdArray.map(getBooksByAuthor);
@@ -193,19 +206,5 @@ router.get('/authors/:id/delete', function(req, res, next) {
   });
 });
 
-router.post('/search', function(req, res, next) {
-  if (req.body.searchBook) {
-    console.log(req.body.searchBook);
-    Promise.resolve(getAuthorsByBookTitle(req.body.searchBook)).then(function(renderAuthorByBook){
-      res.redirect('/books/' + renderAuthorByBook.book.id);
-
-    });
-  } else if (req.body.searchAuthor) {
-    console.log(req.body.searchAuthor);
-    Promise.resolve(getBooksByAuthorName(req.body.searchAuthor)).then(function(renderBookByAuthor){
-      res.redirect('/authors/' + renderBookByAuthor.author.id);
-    });
-  }
-});
 
 module.exports = router;
