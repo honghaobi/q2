@@ -9,19 +9,19 @@ block content
         .callout
           label
             | First Name
-            input(type='text', name='first_name', placeholder='Marijn')
+            input(type='text', required='', name='first_name', placeholder='Marijn')
 
           label
             | Last Name
-            input(type='text', name='last_name', placeholder='Haverbeke')
+            input(type='text', required='', name='last_name', placeholder='Haverbeke')
 
           label
             | Portrait URL
-            input(type='text', name='portrait_url', placeholder='http://2011.ffconf.org/images/speakers/schedule/marijn.jpg')
+            input(type='text', required='', name='portrait_url', placeholder='http://2011.ffconf.org/images/speakers/schedule/marijn.jpg')
             
           label
             | Biography
-            textarea(name='biography', placeholder="Marijn Haverbeke is a programming language enthusiast and polyglot. He's worked his way from trivial BASIC games on the Commodore, through a C++ phase, to the present where he mostly hacks on database systems and web APIs in dynamic languages. He recently won the JS1K—JavaScript demo in 1024 bytes—contest, and is the author of a wide range of open-source software.")
+            textarea(name='biography', required='', placeholder="Marijn Haverbeke is a programming language enthusiast and polyglot. He's worked his way from trivial BASIC games on the Commodore, through a C++ phase, to the present where he mostly hacks on database systems and web APIs in dynamic languages. He recently won the JS1K—JavaScript demo in 1024 bytes—contest, and is the author of a wide range of open-source software.")
           
       .medium-6.columns    
         .callout

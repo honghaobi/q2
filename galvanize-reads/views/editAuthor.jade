@@ -9,15 +9,15 @@ block content
         .callout
           label
             | Full Name
-            input(type='text', name='full_name', value=renderBookByAuthor.author.full_name)
+            input(type='text', required='', name='full_name', value=renderBookByAuthor.author.full_name)
 
           label
             | Portrait URL
-            input(type='text', name='portrait_url', value=renderBookByAuthor.author.portrait_url)
+            input(type='text', required='', name='portrait_url', value=renderBookByAuthor.author.portrait_url)
             
           label
             | Biography
-            textarea(name='biography')=renderBookByAuthor.author.biography
+            textarea(name='biography', required='')=renderBookByAuthor.author.biography
           
       .medium-6.columns    
         .callout

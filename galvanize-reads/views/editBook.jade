@@ -9,19 +9,19 @@ block content
         .callout
           label
             | Title
-            input(type='text', name='title', value=renderAuthorByBook.book.title)
+            input(type='text', required='', name='title', value=renderAuthorByBook.book.title)
 
           label
             | Genre
-            input(type='text', name='genre', value=renderAuthorByBook.book.genre)
+            input(type='text', required='', name='genre', value=renderAuthorByBook.book.genre)
             
           label
             | Cover Image Url
-            input(type='text', name='cover', value=renderAuthorByBook.book.cover)
+            input(type='text', required='', name='cover', value=renderAuthorByBook.book.cover)
             
           label
             | Description
-            textarea(name='description')=renderAuthorByBook.book.description
+            textarea(name='description' required='')=renderAuthorByBook.book.description
           
       .medium-6.columns    
         .callout
