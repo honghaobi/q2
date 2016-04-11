@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav
+      a(href="/") Home
+      ||
+      a(href="/about") About
+      ||
+      a(href="/users") View All Users
+      ||
+      a(href="/products") All Products
+      ||
+      a(href="/products/popular") Popular Products
+      ||
+      a(href="/products/on-sale") Products on Sale
+      ||
+      a(href="/articles") All Articles
+      ||
+      a(href="/articles/recent") Recent Articles
+      ||
+      a(href="/articles/most-popular") Popular Articles
+      ||
+      if currentUser
+        | Welcome #{currentUser}!
+        ||
+        a(href="/logout") Logout
+      else
+        a(href="/login") Login
+    block content

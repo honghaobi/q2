@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h1 All Users
+  
+  if !currentUser
+    .warning
+      | Only logged-in users should be able to see this page!
+  else
+    .info Success!
+
+  ul
+    li 
+      a(href="/users/dante") dante
+    li
+      a(href="/users/amara") amara
+    li
+      a(href="/users/monica") monica
+    li
+      a(href="/users/jules") jules

@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1 Login
+
+  .info
+    |Everyone should be able to see this page
+  
+  p.
+    Please login as either:
+  ul
+    li dante
+    li amara
+    li monica
+    li jules
+  
+  form(action="/login" method="post")
+    p
+      input(type='text' name='user_name')
+    p
+      input(type='submit' value='Login')

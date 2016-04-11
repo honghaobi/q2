@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1 Editing #{user}
+  
+  if currentUser !== user
+    .warning.user
+      | Only #{user} should be able to see this page!!
+  else
+    .info Success!

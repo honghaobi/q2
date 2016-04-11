@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  h1 
+    | Viewing #{username}
+    |[
+    a(href="/users/#{username}/edit") edit
+    |]
+  
+  if currentUser !== username
+    .warning.user
+      | Only #{username} should be able to see this page!!
+  else
+    .info Success!

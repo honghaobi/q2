@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1 #{title}
+  
+  if !currentUser
+    .warning
+      | Only logged-in users should be able to see this page!
+  else
+    .info Success!
