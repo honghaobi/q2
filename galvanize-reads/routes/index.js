@@ -46,6 +46,13 @@ function getAuthorsByBookTitle (bookTitle) {
   });
 };
 
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index');
@@ -53,12 +60,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/search', function(req, res, next) {
   if (req.body.searchBook) {
-    console.log(req.body.searchBook);
-    Promise.resolve(getAuthorsByBookTitle(req.body.searchBook)).then(function(renderAuthorByBook){
+    Promise.resolve(getAuthorsByBookTitle(toTitleCase(req.body.searchBook))).then(function(renderAuthorByBook){
       res.redirect('/books/' + renderAuthorByBook.book.id);
     });
   } else if (req.body.searchAuthor) {
-    Promise.resolve(getBooksByAuthorName(req.body.searchAuthor)).then(function(renderBookByAuthor){
+
+    Promise.resolve(getBooksByAuthorName(toTitleCase(req.body.searchAuthor))).then(function(renderBookByAuthor){
       res.redirect('/authors/' + renderBookByAuthor.author.id);
     });
   }
