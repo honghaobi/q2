@@ -1,5 +1,14 @@
 $(document).ready(function() {
 
+  var counter = 1;
+  var i = setInterval(function(){
+      $('.land').attr('src', '/images/c' + counter  + '.jpg');
+      counter++;
+      if(counter === 5) {
+        counter = 1;
+      }
+  }, 5000);
+
   $('.text').on('click',function(event) {
     $(this).toggleClass( 'text-show');
   });
