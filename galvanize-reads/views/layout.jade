@@ -18,7 +18,7 @@ html
             ul.menu.vertical
               for genre in genres
                 li
-                  a(href='/books/#{genre.genre}') #{genre.genre}
+                  a(href='/books/genre/#{genre.genre}') #{genre.genre}
 
           li
             a(href='/books') #{bookCount[0].count} Books

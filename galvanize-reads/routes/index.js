@@ -123,7 +123,7 @@ router.get('/books', function(req, res, next) {
   });
 });
 
-router.get('/books/:genre', function(req, res, next) {
+router.get('/books/genre/:genre', function(req, res, next) {
   Books().pluck('id').where({genre:req.params.genre}).then(function(booksIdArray) {
     var authorsByBook = booksIdArray.map(getAuthorsByBook);
     Promise.all(authorsByBook).then(function(renderAuthorsByBook){

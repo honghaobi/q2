@@ -10,14 +10,14 @@ block content
         .callout
           h4= bookAuthorsObjs.book.title
           p
-            a(href='books/' + bookAuthorsObjs.book.id)
+            a(href='../../books/' + bookAuthorsObjs.book.id)
               img(src=bookAuthorsObjs.book.cover, alt=bookAuthorsObjs.book.title)
           //- p.header Author(s):
           for author in bookAuthorsObjs.authorsByBook
-            a(href='authors/' + author.id)
+            a(href='../../authors/' + author.id)
               img.sub-img(src=author.portrait_url, alt=author.full_name)
             //- p.header=author.full_name
           p.subheader=bookAuthorsObjs.book.genre
           p.text.subheader=bookAuthorsObjs.book.description
-          a.warning.expanded.button(href='/books/'+bookAuthorsObjs.book.id+'/edit') Edit Book
-          a.alert.expanded.button(href='/books/'+bookAuthorsObjs.book.id+'/delete') Remove book
+          a.warning.expanded.button(href='../../books/'+bookAuthorsObjs.book.id+'/edit') Edit Book
+          a.alert.expanded.button(href='../../books/'+bookAuthorsObjs.book.id+'/delete') Remove book
