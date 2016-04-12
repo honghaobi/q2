@@ -76,16 +76,14 @@ function toTitleCase(str)
 router.use(function(req, res, next) {
   Promise.resolve(getBooksGenre()).then(function(genres){
     res.locals.genres = genres;
+    Promise.resolve(getBooksCount()).then(function(bookCount){
+      res.locals.bookCount = bookCount;
+      Promise.resolve(getAuthorsCount()).then(function(authorCount){
+        res.locals.authorCount = authorCount;
+        next();
+      })
+    })
   })
-
-  Promise.resolve(getBooksCount()).then(function(bookCount){
-    res.locals.bookCount = bookCount;
-  })
-
-  Promise.resolve(getAuthorsCount()).then(function(authorCount){
-    res.locals.authorCount = authorCount;
-  })
-  next();
 });
 
 router.get('/', function(req, res, next) {
@@ -133,6 +131,7 @@ router.get('/books/genre/:genre', function(req, res, next) {
 });
 
 router.get('/books/create', function(req, res, next) {
+  console.log(req.locals);
   Authors().select().then(function(authors) {
     res.render('createBook', {authors});
   });
