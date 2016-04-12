@@ -5,6 +5,7 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;

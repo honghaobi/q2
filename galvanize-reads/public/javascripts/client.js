@@ -1,14 +1,5 @@
 $(document).ready(function() {
 
-  var counter = 1;
-  var i = setInterval(function(){
-      $('.land').attr('src', '/images/c' + counter  + '.jpg');
-      counter++;
-      if(counter === 5) {
-        counter = 1;
-      }
-  }, 5000);
-
   $('.text').on('click',function(event) {
     $(this).toggleClass( 'text-show');
   });
@@ -34,12 +25,11 @@ $(document).ready(function() {
       var bookName = $('.bookSelection option:selected').text();
       var addedBooks = ($('.addedBook option').text());
 
-        if (addedBooks.indexOf(bookName) < 0) {
-          $('.addedBook').append("<option value=" + bookID + ">" + bookName + "</option>");
-        } else {
-          return;
-        }
-
+      if (addedBooks.indexOf(bookName) < 0) {
+        $('.addedBook').append("<option value=" + bookID + ">" + bookName + "</option>");
+      } else {
+        return;
+      }
     });
 
   $('.removeBook').on("click", function(event) {
