@@ -6,6 +6,16 @@ html {
   box-sizing: inherit;
 }
 
+.auth{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.admin{
+  width: 25px;
+  margin: -3PX;
+}
+
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;

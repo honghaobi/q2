@@ -3,19 +3,21 @@ extends layout
 block content
 
   .row.column
-    a.large.success.expanded.button(href='../../authors/create') Add An Author
+    if user.admin
+      a.large.success.expanded.button(href='../../authors/create') Add An Author
   .row.small-up-1.medium-up-2.large-up-3
     for authorBooksObjs in renderBooksByAuthor
       .column
         .callout
           p
             a(href='../../authors/' + authorBooksObjs.author.id)
-              img(src=authorBooksObjs.author.portrait_url, alt=authorBooksObjs.author.full_name)
+              img.thumbnail(src=authorBooksObjs.author.portrait_url, alt=authorBooksObjs.author.full_name)
           p.lead=authorBooksObjs.author.full_name
           p Books Written by Author:
           for book in authorBooksObjs.booksByAuthor
             a(href='../../books/' + book.id)
               p=book.title
           p.text.subheader=authorBooksObjs.author.biography
-          a.warning.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/edit') Edit Author
-          a.alert.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/delete') Remove Author
+          if user.admin
+            a.warning.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/edit') Edit Author
+            a.alert.expanded.button(href='/authors/'+authorBooksObjs.author.id+'/delete') Remove Author

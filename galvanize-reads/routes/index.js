@@ -71,11 +71,27 @@ function toTitleCase(str)
   });
 }
 
+function userAuth(req, res, next) {
+  if (res.locals.user == undefined) {
+    res.redirect('/new');
+  } else if (res.locals.user){
+    next();
+  }
+}
+
+
+function adminAuth(req, res, next) {
+  if (res.locals.user == undefined) {
+    res.redirect('/new');
+  } else if (res.locals.user.admin === true){
+    next();
+  }
+}
+
 /* GET home page. */
 
 router.use(function(req, res, next) {
   res.locals.user = req.session.user;
-  console.log(req.session.user);
   Promise.resolve(getBooksGenre()).then(function(genres){
     res.locals.genres = genres;
     Promise.resolve(getBooksCount()).then(function(bookCount){
@@ -88,11 +104,7 @@ router.use(function(req, res, next) {
   })
 });
 
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
-
-router.post('/search', function(req, res, next) {
+router.post('/search', userAuth, function(req, res, next) {
   if (req.body.searchBook) {
     Promise.resolve(getAuthorsByBookTitle(toTitleCase(req.body.searchBook))).then(function(renderAuthorByBook){
       res.redirect('/books/' + renderAuthorByBook.book.id);
@@ -105,7 +117,7 @@ router.post('/search', function(req, res, next) {
   }
 });
 
-router.get('/authors', function(req, res, next) {
+router.get('/authors', userAuth, function(req, res, next) {
   Authors().pluck('id').then(function(authorsIdArray) {
     var booksByAuthor = authorsIdArray.map(getBooksByAuthor);
     Promise.all(booksByAuthor).then(function(renderBooksByAuthor){
@@ -114,7 +126,7 @@ router.get('/authors', function(req, res, next) {
   });
 });
 
-router.get('/books', function(req, res, next) {
+router.get('/books', userAuth, function(req, res, next) {
   Books().pluck('id').then(function(booksIdArray) {
     var authorsByBook = booksIdArray.map(getAuthorsByBook);
     Promise.all(authorsByBook).then(function(renderAuthorsByBook){
@@ -123,7 +135,7 @@ router.get('/books', function(req, res, next) {
   });
 });
 
-router.get('/books/genre/:genre', function(req, res, next) {
+router.get('/books/genre/:genre', userAuth, function(req, res, next) {
   Books().pluck('id').where({genre:req.params.genre}).then(function(booksIdArray) {
     var authorsByBook = booksIdArray.map(getAuthorsByBook);
     Promise.all(authorsByBook).then(function(renderAuthorsByBook){
@@ -132,14 +144,14 @@ router.get('/books/genre/:genre', function(req, res, next) {
   });
 });
 
-router.get('/books/create', function(req, res, next) {
+router.get('/books/create', adminAuth, function(req, res, next) {
   console.log(req.locals);
   Authors().select().then(function(authors) {
     res.render('createBook', {authors});
   });
 });
 
-router.post('/books/create', function(req, res, next) {
+router.post('/books/create', adminAuth, function(req, res, next) {
   Books().insert({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
     Books().select().first().where({title:req.body.title}).then(function(newbook){
       if (typeof(req.body.author)==='object') {
@@ -156,13 +168,13 @@ router.post('/books/create', function(req, res, next) {
   });
 });
 
-router.get('/authors/create', function(req, res, next) {
+router.get('/authors/create', adminAuth, function(req, res, next) {
   Books().select().then(function(books) {
     res.render('createAuthor', {books});
   });
 });
 
-router.post('/authors/create', function(req, res, next) {
+router.post('/authors/create', adminAuth, function(req, res, next) {
   Authors().insert({full_name: req.body.first_name + ' ' + req.body.last_name , portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
     Authors().select().first().where({full_name: req.body.first_name + ' ' + req.body.last_name}).then(function(newAuthor){
       if (typeof(req.body.book)==='object') {
@@ -179,19 +191,19 @@ router.post('/authors/create', function(req, res, next) {
   });
 });
 
-router.get('/books/:id', function(req, res, next) {
+router.get('/books/:id', userAuth, function(req, res, next) {
   Promise.resolve(getAuthorsByBook(req.params.id)).then(function(renderAuthorByBook){
     res.render('book', {renderAuthorByBook});
   });
 });
 
-router.get('/authors/:id', function(req, res, next) {
+router.get('/authors/:id', userAuth, function(req, res, next) {
   Promise.resolve(getBooksByAuthor(req.params.id)).then(function(renderBookByAuthor){
     res.render('author', {renderBookByAuthor});
   });
 });
 
-router.get('/books/:id/edit', function(req, res, next) {
+router.get('/books/:id/edit', adminAuth, function(req, res, next) {
   Promise.resolve(getAuthorsByBook(req.params.id)).then(function(renderAuthorByBook){
     Authors().select().then(function(allAuthors){
       res.render('editBook', {renderAuthorByBook, allAuthors});
@@ -199,7 +211,7 @@ router.get('/books/:id/edit', function(req, res, next) {
   });
 });
 
-router.get('/authors/:id/edit', function(req, res, next) {
+router.get('/authors/:id/edit', adminAuth, function(req, res, next) {
   Promise.resolve(getBooksByAuthor(req.params.id)).then(function(renderBookByAuthor){
     Books().select().then(function(allBooks){
       res.render('editAuthor', {renderBookByAuthor, allBooks});
@@ -207,7 +219,7 @@ router.get('/authors/:id/edit', function(req, res, next) {
   });
 });
 
-router.post('/books/:id/edit', function(req, res, next) {
+router.post('/books/:id/edit', adminAuth, function(req, res, next) {
   Books().where({id:req.params.id}).update({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
     Books().select().first().where({id:req.params.id}).then(function(editbook){
       ABR().del().where({book_id: editbook.id}).then(function(){
@@ -226,7 +238,7 @@ router.post('/books/:id/edit', function(req, res, next) {
   });
 });
 
-router.post('/authors/:id/edit', function(req, res, next) {
+router.post('/authors/:id/edit', adminAuth, function(req, res, next) {
   Authors().where({id:req.params.id}).update({full_name: req.body.full_name, portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
     Authors().select().first().where({id:req.params.id}).then(function(editAuthor){
       ABR().del().where({author_id: editAuthor.id}).then(function(){
@@ -245,13 +257,13 @@ router.post('/authors/:id/edit', function(req, res, next) {
   });
 });
 
-router.get('/books/:id/delete', function(req, res, next) {
+router.get('/books/:id/delete', adminAuth, function(req, res, next) {
   Books().del().where({id:req.params.id}).then(function(){
     res.redirect('/books');
   });
 });
 
-router.get('/authors/:id/delete', function(req, res, next) {
+router.get('/authors/:id/delete', adminAuth, function(req, res, next) {
   Authors().del().where({id:req.params.id}).then(function(){
     res.redirect('/authors');
   });

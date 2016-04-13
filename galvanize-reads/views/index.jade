@@ -2,7 +2,7 @@ extends layout
 
 block content
 
-  .orbit(role='region', aria-label='Favorite Space Pictures', data-orbit='')
+  .orbit(role='region', aria-label='Favorite Book Pictures', data-orbit='')
     ul.orbit-container
       button.orbit-previous
         span.show-for-sr Previous Slide
@@ -11,21 +11,20 @@ block content
         span.show-for-sr Next Slide
         | ▶︎
       li.is-active.orbit-slide
-        img.orbit-image(src='images/c1.jpg', alt='Books')
+        img.thumbnail.orbit-image(src='images/c1.jpg', alt='Books')
         figcaption.orbit-caption I Love Books!
       li.orbit-slide
-        img.orbit-image(src='images/c2.jpg', alt='Books')
+        img.thumbnail.orbit-image(src='images/c2.jpg', alt='Books')
         figcaption.orbit-caption I Love Reading Books!
       li.orbit-slide
-        img.orbit-image(src='images/c3.jpg', alt='Books')
+        img.thumbnail.orbit-image(src='images/c3.jpg', alt='Books')
         figcaption.orbit-caption I Love Reading Javascript Books!
       li.orbit-slide
-        img.orbit-image(src='images/c4.jpg', alt='Books')
+        img.thumbnail.orbit-image(src='images/c4.jpg', alt='Books')
         figcaption.orbit-caption I Love Reading Javascript Books and Eating Tacos!
     nav.orbit-bullets
       button.is-active(data-slide='0')
         span.show-for-sr First slide details.
-        span.show-for-sr Current Slide
       button(data-slide='1')
         span.show-for-sr Second slide details.
       button(data-slide='2')

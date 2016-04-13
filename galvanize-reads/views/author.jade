@@ -6,20 +6,21 @@ block content
       .callout
         h3=renderBookByAuthor.author.full_name
         p
-          img(src=renderBookByAuthor.author.portrait_url, alt=renderBookByAuthor.author.full_name)
+          img.thumbnail(src=renderBookByAuthor.author.portrait_url, alt=renderBookByAuthor.author.full_name)
     .large-8.columns
       .row
         .small-8.columns
           .callout
             p.subheader=renderBookByAuthor.author.biography
         .small-4.columns
-          .callout
-            a.warning.expanded.button(href=renderBookByAuthor.author.id+'/edit') Edit Author
-            a.alert.expanded.button(href=renderBookByAuthor.author.id+'/delete') Remove Author
+          if user.admin
+            .callout
+              a.warning.expanded.button(href=renderBookByAuthor.author.id+'/edit') Edit Author
+              a.alert.expanded.button(href=renderBookByAuthor.author.id+'/delete') Remove Author
       .row    
         for book in renderBookByAuthor.booksByAuthor
           .small-4.columns  
             .callout
               a(href='../books/' + book.id)
                 p.header=book.title
-                img.sub-img-book(src=book.cover, alt=book.title)
+                img.thumbnail.sub-img-book(src=book.cover, alt=book.title)

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+
+  .callout
+    .row
+      table.hover
+        thead
+          tr
+            th(width='200') User Name
+            th(width='300') User Email
+            th(width='300') Admin Permission
+            th(width='300')
+        tbody        
+          for user in users
+            tr
+              td=user.user_name
+              td=user.user_email
+              td 
+                fieldset
+                  if user.admin
+                    p Has Permission
+                  else
+                    p Doesn't Have Permission
+                    
+              td 
+                if user.admin
+                  a.alert.button(href='/admin/remove/' + user.user_name) Remove Permission
+                else
+                  a.success.button(href='/admin/add/' + user.user_name) Grant Permission

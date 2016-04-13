@@ -38,9 +38,11 @@ function load_author_book_relationship (data) {
 }
 
 var parser = parse({delimiter: ','}, function(err, data){
-  // load_books(data);
-  // load_authors(data);
-  // load_author_book_relationship(data);
+  // Promise.resolve(load_books(data)).then(function(){
+  //   Promise.resolve(load_authors(data)).then(function(){
+  //     Promise.resolve(load_author_book_relationship(data));
+  //   });
+  // });
 });
 
 module.exports = function(){
