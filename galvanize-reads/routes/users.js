@@ -50,6 +50,12 @@ router.get('/admin/add/:name', function(req, res, next) {
   })
 });
 
+router.get('/admin/delete/:name', function(req, res, next) {
+  Users().del().where({user_name:req.params.name}).then(function(){
+    res.redirect('/admin')
+  })
+});
+
 router.get('/signout', (req, res, next) => {
   req.session = null;
   res.redirect('/');

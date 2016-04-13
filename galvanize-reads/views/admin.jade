@@ -10,7 +10,8 @@ block content
             th(width='200') User Name
             th(width='300') User Email
             th(width='300') Admin Permission
-            th(width='300')
+            th(width='300') Grant/ Remove Permission
+            th(width='300') Remove User
         tbody        
           for user in users
             tr
@@ -25,6 +26,8 @@ block content
                     
               td 
                 if user.admin
-                  a.alert.button(href='/admin/remove/' + user.user_name) Remove Permission
+                  a.warning.button(href='/admin/remove/' + user.user_name) Remove Permission
                 else
                   a.success.button(href='/admin/add/' + user.user_name) Grant Permission
+              td
+                a.alert.button(href='/admin/delete/' + user.user_name) Remove User
