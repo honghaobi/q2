@@ -24,7 +24,17 @@ html
             a(href='/books') #{bookCount[0].count} Books
           li
             a(href='/authors') #{authorCount[0].count} Authors
-      
+            
+      .top-bar-right
+        ul.dropdown.menu(data-dropdown-menu='')
+          if user
+            li
+              a.button(href='/signout') Sign Out
+          else
+            li 
+              a.button(href='/new') Sign Up
+            li 
+              a.button(href='/new') Sign In
     br
     .row
       .medium-7.large-6.columns

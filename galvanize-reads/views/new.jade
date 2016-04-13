@@ -1,0 +1,30 @@
+extends layout
+
+block content
+
+  .callout
+    .row
+      form(action="../new/signup", method="post")
+        .medium-6.columns
+          label
+            | Name
+            input(type='text', name='user_name', placeholder='Henry' required='')
+          label
+            | Email
+            input(type='text', name='user_email', placeholder='henry@cool.com' required='')
+          label
+            | Password
+            input(type='text', name='password', placeholder='YoloSwag' required='')  
+          input.expanded.success.large.button(type='submit', value='Add a New User')     
+      form(action="../new/signin", method="post")    
+        .medium-6.columns
+          label
+            | Name
+            input(type='text', name='user_name', placeholder='Henry' required='')
+          label
+            | Email
+            input(type='text', name='user_email', placeholder='henry@cool.com' required='')
+          label
+            | Password
+            input(type='text', name='password', placeholder='YoloSwag' required='')  
+          input.expanded.success.large.button(type='submit', value='Sign In') 

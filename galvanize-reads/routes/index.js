@@ -74,6 +74,8 @@ function toTitleCase(str)
 /* GET home page. */
 
 router.use(function(req, res, next) {
+  res.locals.user = req.session.user;
+  console.log(req.session.user);
   Promise.resolve(getBooksGenre()).then(function(genres){
     res.locals.genres = genres;
     Promise.resolve(getBooksCount()).then(function(bookCount){
