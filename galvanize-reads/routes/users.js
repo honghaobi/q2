@@ -17,6 +17,7 @@ router.get('/new', function(req, res, next) {
 
 router.post('/new/signup', function(req, res, next) {
   users.createUser(req.body, (err, data) => {
+    req.flash("success", "User Added Successfully");
     res.redirect('/books');
   });
 });
