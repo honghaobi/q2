@@ -2,17 +2,11 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
-function Authors() {
-  return knex('authors');
-}
+function Authors() {return knex('authors');}
 
-function Books() {
-  return knex('books');
-}
+function Books() {return knex('books');}
 
-function ABR() {
-  return knex('author_book_relationship');
-}
+function ABR() {return knex('author_book_relationship');}
 
 function getBooksByAuthor (authorId) {
   return Authors().select().first().where({id:authorId}).then(function(author){
@@ -55,13 +49,13 @@ function getBooksGenre() {
 function getBooksCount(){
   return Books().count().then(function(count){
     return count;
-  })
+  });
 }
 
 function getAuthorsCount(){
   return Authors().count().then(function(count){
     return count;
-  })
+  });
 }
 
 function toTitleCase(str)
@@ -72,7 +66,7 @@ function toTitleCase(str)
 }
 
 function userAuth(req, res, next) {
-  if (res.locals.user == undefined) {
+  if (res.locals.user === undefined) {
     res.redirect('/new');
   } else if (res.locals.user){
     next();
@@ -81,7 +75,7 @@ function userAuth(req, res, next) {
 
 
 function adminAuth(req, res, next) {
-  if (res.locals.user == undefined) {
+  if (res.locals.user === undefined) {
     res.redirect('/new');
   } else if (res.locals.user.admin === true){
     next();
@@ -99,9 +93,9 @@ router.use(function(req, res, next) {
       Promise.resolve(getAuthorsCount()).then(function(authorCount){
         res.locals.authorCount = authorCount;
         next();
-      })
-    })
-  })
+      });
+    });
+  });
 });
 
 router.post('/search', userAuth, function(req, res, next) {
