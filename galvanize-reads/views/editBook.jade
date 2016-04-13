@@ -2,7 +2,7 @@ extends layout
 
 block content
 
-  form(action="/books/" + renderAuthorByBook.book.id + "/edit", method="post")
+  form(action="/books/" + renderAuthorByBook.book.id + "/edit" + "?_method=put", method="post")
 
     .row
       .medium-6.columns

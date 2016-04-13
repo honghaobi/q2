@@ -213,7 +213,7 @@ router.get('/authors/:id/edit', adminAuth, function(req, res, next) {
   });
 });
 
-router.post('/books/:id/edit', adminAuth, function(req, res, next) {
+router.put('/books/:id/edit', adminAuth, function(req, res, next) {
   Books().where({id:req.params.id}).update({title: req.body.title, genre: req.body.genre, description: req.body.description, cover: req.body.cover}).then(function(data){
     Books().select().first().where({id:req.params.id}).then(function(editbook){
       ABR().del().where({book_id: editbook.id}).then(function(){
@@ -232,7 +232,7 @@ router.post('/books/:id/edit', adminAuth, function(req, res, next) {
   });
 });
 
-router.post('/authors/:id/edit', adminAuth, function(req, res, next) {
+router.put('/authors/:id/edit', adminAuth, function(req, res, next) {
   Authors().where({id:req.params.id}).update({full_name: req.body.full_name, portrait_url: req.body.portrait_url, biography: req.body.biography}).then(function(data){
     Authors().select().first().where({id:req.params.id}).then(function(editAuthor){
       ABR().del().where({author_id: editAuthor.id}).then(function(){
